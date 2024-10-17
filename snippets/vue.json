@@ -1,0 +1,21 @@
+{
+  "Vue SFC": {
+    "prefix": "vbase3",
+    "body": [
+      "<template>",
+      "\t<${1:div}>",
+      "\t\t",
+      "</${1:div}>",
+      "</template>",
+      "<script lang=\"ts\">",
+      "export default defineComponent({",
+      "/t${0}",
+      "})",
+      "</script>",
+      "<style lang=\"scss\">",
+      "",
+      "</style>"
+    ],
+    "description": "Vue 3 base"
+  }
+}

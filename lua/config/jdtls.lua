@@ -1,0 +1,24 @@
+local M = {}
+
+function M.start()
+  local mason_registry = require("mason-registry")
+  local jdtls_loc = mason_registry.get_package("jdtls"):get_install_path()
+
+  require("jdtls").start_or_attach({
+    cmd = { jdtls_loc .. "/bin/jdtls" },
+    root_dir = vim.fs.dirname(vim.fs.find({ 'pom.xml', '.git' }, { upward = true })[1]),
+    settings = {
+      java = {
+        configuration = {
+          runtimes = {
+            { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk-amd64/" },
+            { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk-amd64/" },
+            { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk-amd64/" },
+          }
+        }
+      }
+    }
+  })
+end
+
+return M

@@ -1,0 +1,5 @@
+require("config.lazy")
+require("config.keymaps").init()
+require("config.autocommands")
+require("config.options")
+require("config.commands")
