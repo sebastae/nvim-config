@@ -22,6 +22,8 @@ function M.show_json_path()
   end
 end
 
+-- Stolen from https://github.com/mogelbrod/vim-jsonpath
+
 ---@class LinesScanner
 ---@field line number
 ---@field col number
@@ -60,17 +62,45 @@ function LinesScanner:pos()
   return self.line, self.col
 end
 
+local escape_map = {
+  ["n"] = "\n",
+  ["r"] = "\r",
+  ["t"] = "\t",
+  ["b"] = "\b",
+  ["f"] = "\f",
+  ["\\"] = "\\",
+  ["\""] = "\"",
+}
+
 ---@param scanner LinesScanner
 ---@return string
 local function read_escape(scanner)
+  local char = scanner:next()
+  local mapped = escape_map[char]
+  if mapped then
+    return mapped
+  elseif char ~= "u" then
+    return char
+  end
 
+  local sv = 12
+  local r = 0
+  for _ = 1, 4 do
+    local c = scanner:next()
+    if c == nil then break end
+    local v = tonumber(c, 16)
+    if v == nil then break end
+    r = r + v * sv
+    sv = sv / 16
+  end
+  return string.char(r)
 end
 
 ---@param lines string[]
 ---@param path string
 function M.scan(lines, path)
   path = path or ""
-  local keys = require("util.strings").split(path, ".")
+  local keys = require("util.strings").split(path, "%.")
   local scanner = LinesScanner:new(lines)
   local stack = {}
   local quoted = false
@@ -82,20 +112,67 @@ function M.scan(lines, path)
     local stack_modified = 0
     local char = scanner:next()
 
-    if char == nil then break end
+    if char == nil then
+      break
+    end
+
     if char == "\\" then
       local decoded = read_escape(scanner)
       if quoted and in_key then
         key = key .. decoded
-      elseif quoted then
-        if char == "\"" then
-          quoted = false
-        elseif in_key then
-          key = key .. char
+      end
+    elseif quoted then
+      if char == '"' then
+        quoted = false
+      elseif in_key then
+        key = key .. char
+      end
+    elseif char == "\"" then
+      quoted = true
+      if in_key then key = "" end
+    elseif char == ":" then
+      if #stack > 0 then
+        stack[#stack] = key
+        stack_strings[#stack_strings] = key
+      else
+        table.insert(stack, key)
+        table.insert(stack_strings, key)
+      end
+      stack_modified = 1
+      in_key = false
+    elseif char == "{" then
+      table.insert(stack, -1)
+      table.insert(stack_strings, "")
+      in_key = true
+    elseif char == "[" then
+      table.insert(stack, 0)
+      table.insert(stack_strings, "0")
+      stack_modified = 1
+      in_key = false
+    elseif char == "}" or char == "]" then
+      table.remove(stack)
+      table.remove(stack_strings)
+      stack_modified = -1
+    elseif char == "," then
+      if #stack > 0 then
+        if type(stack[#stack]) == "number" and stack[#stack] >= 0 then
+          stack[#stack] = stack[#stack] + 1
+          stack_strings[#stack_strings] = tostring(stack[#stack])
+          stack_modified = 1
+        else
+          in_key = true
         end
       end
     end
+
+    if stack_modified == 1 then
+      if require "util.tables".is_equal(stack_strings, keys) then
+        return scanner:pos()
+      end
+    end
   end
+
+  return nil, nil
 end
 
 return M

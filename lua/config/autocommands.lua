@@ -55,6 +55,27 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorMoved" }, {
   callback = require("util.json").show_json_path
 })
 
+vim.api.nvim_create_autocmd({ "BufAdd" }, {
+  pattern = "*.json",
+  group = json_path_gr,
+  callback = function(opts)
+    vim.keymap.set("n", "<C-j>", function()
+        local lines = vim.api.nvim_buf_get_lines(opts.buf, 0, -1, false)
+        local win = vim.api.nvim_get_current_win()
+
+        vim.ui.input({ prompt = "Json path" }, function(path)
+          local line, col = require "util.json".scan(lines, path)
+          if line ~= nil and col ~= nil then
+            vim.api.nvim_win_set_cursor(win, { line, col })
+          else
+            require "notify".notify('Key "' .. path .. '" not found', "warn", {})
+          end
+        end)
+      end,
+      { buffer = opts.buf })
+  end
+})
+
 -- Start jdtls on entering java buffer
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = "*.java",
@@ -66,7 +87,7 @@ local crosshair_gr = vim.api.nvim_create_augroup('crosshairs', { clear = true })
 vim.api.nvim_create_autocmd({ "WinEnter", "WinNew", "VimEnter", "BufEnter" }, {
   group = crosshair_gr,
   callback = function(opts)
-    local readonly = vim.api.nvim_get_option_value('readonly', {buf = opts.buf})
+    local readonly = vim.api.nvim_get_option_value('readonly', { buf = opts.buf })
     vim.api.nvim_set_option_value('cursorline', not readonly, { win = opts.win })
     vim.api.nvim_set_option_value('cursorcolumn', not readonly, { win = opts.win })
   end
@@ -76,8 +97,7 @@ vim.api.nvim_create_autocmd({ "OptionSet" }, {
   group = crosshair_gr,
   pattern = "readonly",
   callback = function(opts)
-
-    local readonly = vim.api.nvim_get_option_value('readonly', {buf = opts.buf})
+    local readonly = vim.api.nvim_get_option_value('readonly', { buf = opts.buf })
 
     vim.api.nvim_set_option_value('cursorline', not readonly, { win = opts.win })
     vim.api.nvim_set_option_value('cursorcolumn', not readonly, { win = opts.win })
