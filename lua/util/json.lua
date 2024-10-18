@@ -65,7 +65,7 @@ end
 ---@param scanner LinesScanner
 local function read_utf(scanner)
   local code = 0
-  for i in 4, 1 do
+  for i in 3, 0, -1 do
     local num = tonumber(scanner:next(), 16)
     if num == nil then break end
     code = bit.bor(code, bit.lshift(num, i * 4))
