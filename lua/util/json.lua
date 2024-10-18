@@ -62,6 +62,17 @@ function LinesScanner:pos()
   return self.line, self.col
 end
 
+---@param scanner LinesScanner
+local function read_utf(scanner)
+  local code = 0
+  for i in 4, 1 do
+    local num = tonumber(scanner:next(), 16)
+    if num == nil then break end
+    code = bit.bor(code, bit.lshift(num, i * 4))
+  end
+  return string.char(code)
+end
+
 local escape_map = {
   ["n"] = "\n",
   ["r"] = "\r",
@@ -83,24 +94,13 @@ local function read_escape(scanner)
     return char
   end
 
-  local sv = 12
-  local r = 0
-  for _ = 1, 4 do
-    local c = scanner:next()
-    if c == nil then break end
-    local v = tonumber(c, 16)
-    if v == nil then break end
-    r = r + v * sv
-    sv = sv / 16
-  end
-  return string.char(r)
+  return read_utf(scanner)
 end
 
 ---@param lines string[]
 ---@param path string
 function M.scan(lines, path)
-  path = path or ""
-  local keys = require("util.strings").split(path, "%.")
+  local keys = require("util.strings").split(path or "", "%.")
   local scanner = LinesScanner:new(lines)
   local stack = {}
   local quoted = false
@@ -173,6 +173,31 @@ function M.scan(lines, path)
   end
 
   return nil, nil
+end
+
+---@param buf number
+---@param win number
+---@param path string?
+function M.goto_json(buf, win, path)
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+
+  local function goto_path(p)
+    local line, col = M.scan(lines, p)
+    if line ~= nil and col ~= nil then
+      vim.api.nvim_win_set_cursor(win, { line, col })
+    else
+      require("notify").notify('Key "' .. path .. '" not found', "warn", {})
+    end
+  end
+
+  if path == nil then
+    vim.ui.input({ prompt = "JSON Path" }, function(p)
+      if p == "" or p == nil then return end
+      goto_path(p)
+    end)
+  else
+    goto_path(path)
+  end
 end
 
 return M

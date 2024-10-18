@@ -60,17 +60,8 @@ vim.api.nvim_create_autocmd({ "BufAdd" }, {
   group = json_path_gr,
   callback = function(opts)
     vim.keymap.set("n", "<C-j>", function()
-        local lines = vim.api.nvim_buf_get_lines(opts.buf, 0, -1, false)
         local win = vim.api.nvim_get_current_win()
-
-        vim.ui.input({ prompt = "Json path" }, function(path)
-          local line, col = require "util.json".scan(lines, path)
-          if line ~= nil and col ~= nil then
-            vim.api.nvim_win_set_cursor(win, { line, col })
-          else
-            require "notify".notify('Key "' .. path .. '" not found', "warn", {})
-          end
-        end)
+        require"util.json".goto_json(opts.buf, win)
       end,
       { buffer = opts.buf })
   end
