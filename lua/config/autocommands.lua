@@ -7,7 +7,9 @@ end
 ---@type {[string]: {[1]: string|string[], [2]: string|fun(), [3]: string}[]}
 local keymaps = {
   ["textDocument/declaration"] = {
-    { "gD", vim.lsp.buf.declaration,          "Go to declaration" },
+    { "gD", vim.lsp.buf.declaration, "Go to declaration" },
+  },
+  ["textDocument/definition"] = {
     { "gd", cmd("Telescope lsp_definitions"), "Show definitions" },
   },
   ["textDocument/implementation"] = { { "gi", vim.lsp.buf.implementation, "Go to implementation" } },
@@ -15,6 +17,8 @@ local keymaps = {
   ["textDocument/rename"] = { { "<F2>", vim.lsp.buf.rename, "Rename symbol" } },
   ["textDocument/codeAction"] = { { "<leader>ca", vim.lsp.buf.code_action, "Code Action" } },
   ["textDocument/signatureHelp"] = { { "S", vim.lsp.buf.signature_help, "Signature help" } },
+  ["textDocument/documentHighlight"] = { { "<leader>hh", vim.lsp.buf.document_highlight, "Document highlight" } },
+  ["textDocument/documentSymbol"] = { { "<C-s>", vim.lsp.buf.document_symbol, "Document symbols" } },
   ["textDocument/diagnostic"] = {
     { "<leader>xx",  vim.diagnostic.open_float,                                                             "Line diagnostics" },
     { "<leader>xn",  vim.diagnostic.goto_next,                                                              "Go to next" },
@@ -61,7 +65,7 @@ vim.api.nvim_create_autocmd({ "BufAdd" }, {
   callback = function(opts)
     vim.keymap.set("n", "<C-j>", function()
         local win = vim.api.nvim_get_current_win()
-        require"util.json".goto_json(opts.buf, win)
+        require "util.json".goto_json(opts.buf, win)
       end,
       { buffer = opts.buf })
   end
@@ -100,5 +104,26 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
   callback = function(opts)
     vim.api.nvim_set_option_value('cursorline', false, { win = opts.win })
     vim.api.nvim_set_option_value('cursorcolumn', false, { win = opts.win })
+  end
+})
+
+
+local highlight_gr = vim.api.nvim_create_augroup("document_highlight", { clear = true })
+vim.api.nvim_create_autocmd({ "LspAttach" }, {
+  group = highlight_gr,
+  callback = function(opts)
+    local client = vim.lsp.get_client_by_id(opts.data.client_id)
+
+    if client and client.supports_method('textDocument/documentHighlight') then
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        buffer = opts.buf,
+        callback = vim.lsp.buf.document_highlight
+      })
+
+      vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+        buffer = opts.buf,
+        callback = vim.lsp.buf.clear_references
+      })
+    end
   end
 })

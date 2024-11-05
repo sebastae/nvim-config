@@ -12,6 +12,7 @@ M.spec = {
       "3rd/image.nvim"
     },
   },
+  { "hedyhli/outline.nvim" },
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
@@ -125,11 +126,11 @@ M.spec = {
     }
   },
   { "phelipetls/jsonpath.nvim", },
-  { "Procrat/oz.vim",           ft = "oz" },
+  { "Procrat/oz.vim",             ft = "oz" },
   { "mfussenegger/nvim-jdtls" },
-  { "imsnif/kdl.vim",           ft = "kdl" },
-  { "zbirenbaum/copilot.lua",   cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
-  { "zbirenbaum/copilot-cmp",   lazy = true, opts = {} },
+  { "imsnif/kdl.vim",             ft = "kdl" },
+  { "zbirenbaum/copilot.lua",     cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
+  { "zbirenbaum/copilot-cmp",     lazy = true,     opts = {} },
 
   -- Keybinds
   {
@@ -160,6 +161,7 @@ function M.init()
   require("config.completions").init_cmp()
   require("config.lsp").setup()
   require("config.snippets").init_snippets()
+  require("config.outline").setup()
 end
 
 return M

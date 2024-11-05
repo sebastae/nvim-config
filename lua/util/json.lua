@@ -186,7 +186,7 @@ function M.goto_json(buf, win, path)
     if line ~= nil and col ~= nil then
       vim.api.nvim_win_set_cursor(win, { line, col })
     else
-      require("notify").notify('Key "' .. path .. '" not found', "warn", {})
+      require("notify").notify('Key "' .. p .. '" not found', "warn", {})
     end
   end
 

@@ -16,6 +16,7 @@ function M.init_cmp()
 
   cmp.setup({
     snippet = {
+
       expand = function(args)
         require("luasnip").lsp_expand(args.body)
       end
@@ -29,16 +30,17 @@ function M.init_cmp()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
+      --['<C-d>'] = cmp.mapping.complete({ config = { sources = cmp.config.sources({ { name = 'copilot', group_index = 2 }, { name = "nvim_lsp", group_index = 2 } }) } }),
       ['<CR>'] = if_visible(cmp.mapping.confirm({ select = false })),
       --['<Tab>'] = if_visible(cmp.mapping.select_next_item()),
       --['<S-Tab>'] = if_visible(cmp.mapping.select_prev_item()),
     }),
     sources = cmp.config.sources(
       {
-        { name = "copilot",  group_index = 2 },
         { name = 'nvim_lsp', group_index = 2 },
         { name = 'luasnip',  group_index = 2 },
         { name = 'path',     group_index = 2 },
+        { name = 'copilot',  group_index = 2 }
       },
       {
         { name = 'buffer' }
