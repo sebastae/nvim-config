@@ -94,26 +94,19 @@ M.spec = {
     },
     event = "VeryLazy"
   },
-  {
-    "echasnovski/mini.ai",
-    opts = function()
-      return {
-        custom_textobjects = {
-          v = require("mini.ai").gen_spec.pair(":", ","),
-        }
-      }
-    end
-  },
+  { "echasnovski/mini.nvim" },
 
   -- LSP
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    opts = { ensure_installed = require("config.lsp").ensure_installed }
+    opts = {
+    }
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "yioneko/nvim-vtsls" }
+    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "yioneko/nvim-vtsls" },
+    version = '*'
   },
   {
     "folke/lazydev.nvim",
@@ -126,11 +119,10 @@ M.spec = {
     }
   },
   { "phelipetls/jsonpath.nvim", },
-  { "Procrat/oz.vim",             ft = "oz" },
-  { "mfussenegger/nvim-jdtls" },
-  { "imsnif/kdl.vim",             ft = "kdl" },
-  { "zbirenbaum/copilot.lua",     cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
-  { "zbirenbaum/copilot-cmp",     lazy = true,     opts = {} },
+  { "Procrat/oz.vim",           ft = "oz" },
+  { "imsnif/kdl.vim",           ft = "kdl" },
+  { "zbirenbaum/copilot.lua",   cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
+  { "zbirenbaum/copilot-cmp",   lazy = true,     opts = {} },
 
   -- Keybinds
   {
@@ -157,9 +149,9 @@ M.spec = {
 function M.init()
   require("config.neo-tree")
   require("config.telescope")
+  require('config.mini').setup()
   require("config.formatting").init_conform()
   require("config.completions").init_cmp()
-  require("config.lsp").setup()
   require("config.snippets").init_snippets()
   require("config.outline").setup()
 end

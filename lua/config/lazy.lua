@@ -17,10 +17,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-local plugins = require("config.plugins")
 
 require("lazy").setup({
-  spec = plugins.spec,
+  spec = require "modules.init".load_package_specs(),
   defaults = {
     lazy = false,
     version = false
@@ -28,5 +27,3 @@ require("lazy").setup({
   install = { colorscheme = { "muted" } },
   checker = { enabled = true }
 })
-
-plugins.init()
