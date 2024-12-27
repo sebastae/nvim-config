@@ -9,10 +9,8 @@ local M = {}
 
 ---@class Module
 ---@field packages? LazySpec[]
----@field keymaps? table[]
----@field load_autocommands? function
----@field init? function
 ---@field lspconfig? ModuleLspConfig
+---@field init? function
 
 ---@type Module[]
 local included_modules = {
