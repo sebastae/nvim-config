@@ -100,8 +100,6 @@ M.spec = {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    opts = {
-    }
   },
   {
     "neovim/nvim-lspconfig",
@@ -119,8 +117,6 @@ M.spec = {
     }
   },
   { "phelipetls/jsonpath.nvim", },
-  { "Procrat/oz.vim",           ft = "oz" },
-  { "imsnif/kdl.vim",           ft = "kdl" },
   { "zbirenbaum/copilot.lua",   cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
   { "zbirenbaum/copilot-cmp",   lazy = true,     opts = {} },
 
@@ -147,13 +143,14 @@ M.spec = {
 }
 
 function M.init()
+  require "telescope".setup {}
+  require "outline".setup {}
+
   require("config.neo-tree")
-  require("config.telescope")
   require('config.mini').setup()
   require("config.formatting").init_conform()
   require("config.completions").init_cmp()
   require("config.snippets").init_snippets()
-  require("config.outline").setup()
 end
 
 return M
