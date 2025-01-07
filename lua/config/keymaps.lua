@@ -39,19 +39,20 @@ local function setup()
     {
       mode = { "n" },
       -- NeoTree
-      { "<leader>n",        cmd("Neotree toggle"), silent = true,       desc = "Toggle NeoTree" },
-      { "<C-n>",            cmd("Neotree toggle"), silent = true,       desc = "Toggle NeoTree" },
-      { "<C-o>",            cmd("Outline"),        silent = true,       desc = "Toggle outline" },
+      { "<leader>n",        cmd("Neotree toggle"),                                                     silent = true,          desc = "Toggle NeoTree" },
+      { "<C-n>",            cmd("Neotree toggle"),                                                     silent = true,          desc = "Toggle NeoTree" },
+      { "<C-o>",            cmd("Outline"),                                                            silent = true,          desc = "Toggle outline" },
 
 
       -- Telescope
       { "<leader>f",        group = "file" },
-      { "<leader>ff",       tb.find_files,         desc = "Find files" },
-      { "<leader><leader>", tb.find_files,         desc = "Find files" },
-      { "<leader>fg",       tb.live_grep,          desc = "Live grep" },
-      { "<leader>fb",       tb.buffers,            desc = "Find buffer" },
-      { "<leader>fh",       tb.help_tags,          desc = "Help tags" },
-      { "<leader>fm",       formatter.format,      desc = "Format file" },
+      { "<leader>ff",       tb.find_files,                                                             desc = "Find files" },
+      { "<leader><leader>", tb.find_files,                                                             desc = "Find files" },
+      { "<leader>fg",       tb.live_grep,                                                              desc = "Live grep" },
+      { "<leader>fb",       tb.buffers,                                                                desc = "Find buffer" },
+      { "<leader>fh",       tb.help_tags,                                                              desc = "Help tags" },
+      { "<leader>fG",       function() tb.find_files({ cwd = require("util.fs").get_git_root() }) end, desc = "Find git filed" },
+      { "<leader>fm",       formatter.format,                                                          desc = "Format file" },
       {
         "<leader>fc",
         call_with_opts(tb.find_files, {
@@ -121,16 +122,16 @@ local function setup()
 
       -- Copilot
       { "<leader>cc", cmd("Copilot toggle"),                         desc = "Copilot toggle" },
-      { "<leader>d", cmd("Noice dismiss"), desc = "Dismiss messages" },
+      { "<leader>d",  cmd("Noice dismiss"),                          desc = "Dismiss messages" },
     },
     {
       mode = { "v" },
       {
         -- Search
-        {"/", function()
+        { "/", function()
           local tmp = vim.fn.getreg('"')
           local input = vim.api.nvim_replace_termcodes([[y/<C-r>"]], true, false, true)
-          vim.api.nvim_feedkeys(input,  'n',  false)
+          vim.api.nvim_feedkeys(input, 'n', false)
           vim.fn.setreg('"', tmp)
         end },
       }
