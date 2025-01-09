@@ -11,6 +11,7 @@ local M = {
       },
       ["cssls"] = {},
       ["somesass_ls"] = {},
+      ["tailwindcss"] = {},
     },
     grammars = {
       "html",
