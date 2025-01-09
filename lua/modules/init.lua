@@ -18,7 +18,7 @@ local included_modules = {
 }
 
 vim.list_extend(included_modules, require "modules.modules")
-vim.list_extend(included_modules, require "modules.local")
+pcall(function() vim.list_extend(included_modules, require "modules.local") end)
 
 function M.load_package_specs()
   local spec = {}
