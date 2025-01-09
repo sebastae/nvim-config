@@ -1,3 +1,4 @@
+---@type Module[]
 return {
 
 }
