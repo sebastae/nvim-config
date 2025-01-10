@@ -15,11 +15,12 @@ function M.init_snippets()
         "</template>",
         "<script lang=\"ts\">",
         "export default defineComponent({",
-        "\t"
+        "\tsetup(){"
       }),
       ls.insert_node(0),
       ls.text_node({
         "",
+        "}",
         "})",
         "</script>",
       }),
