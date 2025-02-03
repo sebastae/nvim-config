@@ -110,20 +110,30 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
 
 local highlight_gr = vim.api.nvim_create_augroup("document_highlight", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
-  group = highlight_gr,
   callback = function(opts)
     local client = vim.lsp.get_client_by_id(opts.data.client_id)
 
     if client and client.supports_method('textDocument/documentHighlight') then
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
         buffer = opts.buf,
+        group=highlight_gr,
         callback = vim.lsp.buf.document_highlight
       })
 
       vim.api.nvim_create_autocmd({ "CursorMoved" }, {
         buffer = opts.buf,
+        group=highlight_gr,
         callback = vim.lsp.buf.clear_references
       })
+    end
+  end
+})
+
+vim.api.nvim_create_autocmd({"LspDetach"}, {
+  callback = function(opts)
+    local client = vim.lsp.get_client_by_id(opts.data.client_id)
+    if client and client.supports_method('textDocument/documentHighlight') then
+      vim.api.nvim_clear_autocmds({group = highlight_gr})
     end
   end
 })
