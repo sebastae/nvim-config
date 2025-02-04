@@ -43,7 +43,6 @@ M.spec = {
     "folke/noice.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify"
     },
     opts = {
       lsp = {
@@ -54,7 +53,7 @@ M.spec = {
         }
       },
       cmdline = { enabled = true },
-      messages = { enabled = false },
+      messages = { enabled = true },
     },
   },
   { "folke/trouble.nvim" },

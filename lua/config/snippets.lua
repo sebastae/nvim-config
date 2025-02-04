@@ -20,7 +20,7 @@ function M.init_snippets()
       ls.insert_node(0),
       ls.text_node({
         "",
-        "}",
+        "\t}",
         "})",
         "</script>",
       }),
