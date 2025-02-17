@@ -122,7 +122,7 @@ local function setup()
 
       -- Copilot
       { "<leader>cc", cmd("Copilot toggle"),                         desc = "Copilot toggle" },
-      { "<leader>d",  cmd("Noice dismiss"),                          desc = "Dismiss messages" },
+      { "<leader>D",  cmd("Noice dismiss"),                          desc = "Dismiss messages" },
     },
     {
       mode = { "v" },
