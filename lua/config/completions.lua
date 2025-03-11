@@ -32,6 +32,14 @@ function M.init_cmp()
       ['<C-e>'] = cmp.mapping.abort(),
       --['<C-d>'] = cmp.mapping.complete({ config = { sources = cmp.config.sources({ { name = 'copilot', group_index = 2 }, { name = "nvim_lsp", group_index = 2 } }) } }),
       ['<CR>'] = if_visible(cmp.mapping.confirm({ select = false })),
+      ['<C-Tab>'] = cmp.mapping(function(fallback)
+        local ls = require('luasnip')
+        if ls.expand_or_locally_jumpable() then
+          ls.expand_or_jump()
+        else
+          fallback()
+        end
+      end, {"i", "s"})
       --['<Tab>'] = if_visible(cmp.mapping.select_next_item()),
       --['<S-Tab>'] = if_visible(cmp.mapping.select_prev_item()),
     }),

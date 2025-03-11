@@ -57,6 +57,11 @@ M.spec = {
     },
   },
   { "folke/trouble.nvim" },
+  {
+    "folke/snacks.nvim",
+    init = function() require("config.snacks").init() end,
+    priority = 1000
+  },
   { "nvim-lualine/lualine.nvim", opts = {} },
   { "lewis6991/gitsigns.nvim",   opts = {} },
   { "akinsho/bufferline.nvim",   opts = {} },
@@ -136,7 +141,16 @@ M.spec = {
       }
     }
   },
-
+  {
+    "natecraddock/workspaces.nvim",
+    init = function()
+      require "workspaces".setup()
+      require "telescope".load_extension("workspaces")
+      require "which-key".add({
+        { "<leader>fw", "<cmd>Telescope workspaces<cr>", desc = "Find workspaces", silent = true, mode = { "n" } }
+      })
+    end
+  },
   -- Color themes
   { "rebelot/kanagawa.nvim" },
   { "conweller/muted.vim" },

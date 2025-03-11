@@ -5,7 +5,7 @@ local tb = require("telescope.builtin")
 local formatter = require("util.format")
 local bufutil = require("util.buffer")
 
-local gs = package.loaded.gitsigns
+local gs = require("gitsigns")
 
 ---@param c string
 ---@return string
@@ -13,18 +13,6 @@ local function cmd(c)
   return "<cmd>" .. c .. "<cr>"
 end
 
-
----@param lhs string
----@return string
-local function ld(lhs)
-  return "<leader>" .. lhs
-end
-
----@param lhs string
----@return string
-local function gh(lhs)
-  return ld("gh" .. lhs)
-end
 
 ---@param fn function
 ---@param opts table
@@ -94,35 +82,44 @@ local function setup()
         desc = "Close all other buffers",
         silent = true
       },
-      { "<leader>bA", cmd("%bd"),                                    desc = "Close all buffers",  silent = true },
-      { "<Tab>",      cmd("bn"),                                     desc = "Next buffer",        silent = true },
-      { "<S-Tab>",    cmd("bp"),                                     desc = "Prev buffer",        silent = true },
+      { "<leader>bA",  cmd("%bd"),                                    desc = "Close all buffers",  silent = true },
+      { "<Tab>",       cmd("bn"),                                     desc = "Next buffer",        silent = true },
+      { "<S-Tab>",     cmd("bp"),                                     desc = "Prev buffer",        silent = true },
 
       -- Better movement
-      { "<C-h>",      "<C-w>h",                                      silent = true, },
-      { "<C-j>",      "<C-w>j",                                      silent = true, },
-      { "<C-k>",      "<C-w>k",                                      silent = true, },
-      { "<C-l>",      "<C-w>l",                                      silent = true, },
+      { "<C-h>",       "<C-w>h",                                      silent = true, },
+      { "<C-j>",       "<C-w>j",                                      silent = true, },
+      { "<C-k>",       "<C-w>k",                                      silent = true, },
+      { "<C-l>",       "<C-w>l",                                      silent = true, },
 
       -- Gitsigns
-      { ld("gh"),     group = "hunks" },
-      { gh("p"),      gs.preview_hunk_inline,                        desc = "Preview Hunk Inline" },
-      { gh("r"),      gs.reset_hunk,                                 desc = "Reset Hunk" },
-      { gh("R"),      gs.reset_buffer,                               desc = "Reset buffer" },
-      { gh("b"),      function() gs.blame_line({ full = true }) end, desc = "Blame line" },
-      { gh("d"),      gs.diffthis,                                   desc = "Diff this" },
-      { gh("D"),      function() gs.diffthis("~") end,               desc = "Diff this ~" },
+      { "<leader>gh",  group = "hunks" },
+      { "<leader>ghp", gs.preview_hunk_inline,                        desc = "Preview Hunk Inline" },
+      { "<leader>ghr", gs.reset_hunk,                                 desc = "Reset Hunk" },
+      { "<leader>ghb", function() gs.blame_line({ full = true }) end, desc = "Blame line" },
+      { "<leader>ghd", gs.diffthis,                                   desc = "Diff this" },
+      { "<leader>ghD", function() gs.diffthis("~") end,               desc = "Diff this ~" },
+      { "<leader>ghs", gs.stage_hunk,                                 desc = "Stage hunk" },
+
+      { "<leader>gb",  group = "buffer" },
+      { "<leader>gbr", gs.reset_buffer,                               desc = "Reset buffer" },
+      { "<leader>gbs", gs.stage_buffer,                               desc = "Stage buffer" },
+
+      { "<leader>gt",  group = "toggle" },
+      { "<leader>gtb", gs.toggle_current_line_blame,                  desc = "Toggle blame" },
+      { "<leader>gtw", gs.toggle_word_diff,                           desc = "Toggle word diff" },
 
       -- Diagnostics, rest is added by autocommand in config/autocommands.lua
-      { "<leader>x",  group = "Diagnostics" },
-      { "<leader>xa", cmd("Telescope diagnostics"),                  desc = "List diagnostics" },
+      { "<leader>x",   group = "Diagnostics" },
+      { "<leader>xa",  cmd("Telescope diagnostics"),                  desc = "List diagnostics" },
+      { "M",           function() vim.diagnostic.open_float() end,    desc = "Show diagnostics" },
 
       -- Scrollbind
-      { "<F5>",       cmd("windo set scrollbind!"),                  desc = "Toggle scrollbind" },
+      { "<F5>",        cmd("windo set scrollbind!"),                  desc = "Toggle scrollbind" },
 
       -- Copilot
-      { "<leader>cc", cmd("Copilot toggle"),                         desc = "Copilot toggle" },
-      { "<leader>D",  cmd("Noice dismiss"),                          desc = "Dismiss messages" },
+      { "<leader>cc",  cmd("Copilot toggle"),                         desc = "Copilot toggle" },
+      { "<leader>D",   cmd("Noice dismiss"),                          desc = "Dismiss messages" },
     },
     {
       mode = { "v" },
