@@ -16,7 +16,10 @@ M.spec = {
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim" }
+    dependencies = { "nvim-lua/plenary.nvim" },
+    init = function()
+      require "config.telescope".init()
+    end
   },
   {
     "nvim-neo-tree/neo-tree.nvim",

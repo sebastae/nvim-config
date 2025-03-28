@@ -48,26 +48,27 @@ local function setup()
         }),
         desc = "Find config files"
       },
-      { "<leader>fp", tb.builtin,            desc = "Telescope builtins" },
+      { "<leader>fp", tb.builtin,                                             desc = "Telescope builtins" },
+      { "<leader>fo", function() require "config.telescope".find_object() end, desc = "Find objects" },
 
       -- Files
-      { "<leader>fn", cmd("enew"),           desc = "New File" },
+      { "<leader>fn", cmd("enew"),                                            desc = "New File" },
 
       -- Groups
       { "<leader>c",  group = "Code actions" },
       { "<leader>b",  group = "Buffer" },
 
       -- Buffers
-      { "<S-h>",      cmd("bprevious"),      desc = "Prev Buffer" },
-      { "<S-l>",      cmd("bnext"),          desc = "Next Buffer" },
-      { "[b",         cmd("bprevious"),      desc = "Prev Buffer" },
-      { "]b",         cmd("bnext"),          desc = "Next Buffer" },
-      { "<leader>bb", cmd("e #"),            desc = "Switch to Other Buffer" },
-      { "<leader>`",  cmd("e #"),            desc = "Switch to Other Buffer" },
-      { "<leader>bd", bufutil.bufremove,     desc = "Delete Buffer" },
-      { "<leader>bD", cmd(":bd"),            desc = "Delete Buffer and Window" },
-      { "<leader>bn", cmd("bn"),             desc = "Next buffer",             silent = true },
-      { "<leader>bp", cmd("bp"),             desc = "Prev buffer",             silent = true },
+      { "<S-h>",      cmd("bprevious"),                                       desc = "Prev Buffer" },
+      { "<S-l>",      cmd("bnext"),                                           desc = "Next Buffer" },
+      { "[b",         cmd("bprevious"),                                       desc = "Prev Buffer" },
+      { "]b",         cmd("bnext"),                                           desc = "Next Buffer" },
+      { "<leader>bb", cmd("e #"),                                             desc = "Switch to Other Buffer" },
+      { "<leader>`",  cmd("e #"),                                             desc = "Switch to Other Buffer" },
+      { "<leader>bd", bufutil.bufremove,                                      desc = "Delete Buffer" },
+      { "<leader>bD", cmd(":bd"),                                             desc = "Delete Buffer and Window" },
+      { "<leader>bn", cmd("bn"),                                              desc = "Next buffer",             silent = true },
+      { "<leader>bp", cmd("bp"),                                              desc = "Prev buffer",             silent = true },
       {
         "<leader>ba",
         function()

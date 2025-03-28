@@ -9,6 +9,7 @@ return {
   lspconfig = {
     servers = {
       ["gopls"] = {},
+      ["sqls"] = {}
     },
     additional_servers = {
       "jdtls"

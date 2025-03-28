@@ -11,7 +11,11 @@ local M = {
   lspconfig = {
     servers = {
       ["lua_ls"] = {},
-      ["typos_lsp"] = {},
+      ["typos_lsp"] = {
+        init_options = {
+          diagnosticSeverity = "Warning"
+        }
+      },
       ["jsonls"] = {},
     },
     grammars = {
