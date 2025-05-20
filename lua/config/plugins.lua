@@ -1,17 +1,6 @@
 local M = {}
 
 M.spec = {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    lazy = true,
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-      "3rd/image.nvim"
-    },
-  },
   { "hedyhli/outline.nvim" },
   {
     "nvim-telescope/telescope.nvim",
@@ -28,17 +17,13 @@ M.spec = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
-      "3rd/image.nvim"
+      { "3rd/image.nvim", version = "v1.3.0" }
     },
     opts = {
       window = {
         position = "right"
       }
     },
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" }
   },
   { "williamboman/mason.nvim",  opts = {} },
   { "folke/todo-comments.nvim", opts = {} },
@@ -92,6 +77,7 @@ M.spec = {
       "saadparwaiz1/cmp_luasnip"
     },
   },
+  { "uga-rosa/ccc.nvim"},
 
   -- Motions
   {
@@ -166,7 +152,7 @@ function M.init()
   require("config.neo-tree")
   require('config.mini').setup()
   require("config.formatting").init_conform()
-  require("config.completions").init_cmp()
+  require("config.completions").init()
   require("config.snippets").init_snippets()
 end
 

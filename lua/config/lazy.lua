@@ -19,6 +19,9 @@ vim.g.maplocalleader = "\\"
 
 
 require("lazy").setup({
+  rocks = {
+    hererocks = true
+  },
   spec = require "modules.init".load_package_specs(),
   defaults = {
     lazy = false,

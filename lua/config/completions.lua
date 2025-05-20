@@ -39,7 +39,7 @@ function M.init_cmp()
         else
           fallback()
         end
-      end, {"i", "s"})
+      end, { "i", "s" })
       --['<Tab>'] = if_visible(cmp.mapping.select_next_item()),
       --['<S-Tab>'] = if_visible(cmp.mapping.select_prev_item()),
     }),
@@ -64,6 +64,19 @@ function M.init_cmp()
       { name = 'cmdline' }
     })
   })
+end
+
+function M.init_ccc()
+  require "ccc".setup {
+    highlighter = {
+      auto_enable = true
+    }
+  }
+end
+
+function M.init()
+  M.init_cmp()
+  M.init_ccc()
 end
 
 return M

@@ -67,21 +67,44 @@ local dbg_prefix = 'l_'
 
 function M.init_go()
   require("dap-go").setup()
+
   local dap = require("dap")
-  for srv, port in pairs(debug_ports) do
-    dap.adapters[dbg_prefix .. srv] = {
+
+  dap.adapters.delve = function(callback, config)
+    if config.mode == 'remote' and config.request == 'attach' then
+    callback({
       type = 'server',
       host = '127.0.0.1',
-      port = tostring(port)
-    }
+      port = tostring(config.port or '38697')
+    }) else callback({
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = 'dlv',
+        args = {'dap','-l', ''},
+        detached = true
+      }
+    }) end
+  end
 
+  for srv, port in pairs(debug_ports) do
     table.insert(dap.configurations.go, {
-      type = dbg_prefix .. srv,
+      type = 'delve',
       name = 'Attach remote (' .. srv .. ')',
       mode = 'remote',
-      request = 'attach'
+      request = 'attach',
+      port = tostring(port)
     })
   end
+
+  table.insert(dap.configurations.go, {
+    buildFlags = "",
+    name = "Debug cosmos",
+    outputMode = "remote",
+    program = "/home/sebastian/luxsave/go/cosmos",
+    request = "launch",
+    type = "go"
+  })
 end
 
 return M
