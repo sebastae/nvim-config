@@ -77,7 +77,7 @@ M.spec = {
       "saadparwaiz1/cmp_luasnip"
     },
   },
-  { "uga-rosa/ccc.nvim"},
+  { "uga-rosa/ccc.nvim" },
 
   -- Motions
   {
@@ -89,6 +89,7 @@ M.spec = {
     event = "VeryLazy"
   },
   { "echasnovski/mini.nvim" },
+  { "jake-stewart/multicursor.nvim" },
 
   -- LSP
   {
@@ -97,7 +98,11 @@ M.spec = {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "yioneko/nvim-vtsls" },
+    dependencies = {
+      { "mason-org/mason.nvim",           version = "*" },
+      { "mason-org/mason-lspconfig.nvim", version = "*" },
+      "yioneko/nvim-vtsls"
+    },
     version = '*'
   },
   {
@@ -154,6 +159,8 @@ function M.init()
   require("config.formatting").init_conform()
   require("config.completions").init()
   require("config.snippets").init_snippets()
+  require("config.multicursor").init()
+
 end
 
 return M

@@ -7,7 +7,8 @@ function M.setup(configs)
   vim.list_extend(ensure_installed, vim.tbl_keys(configs.servers or {}))
   vim.list_extend(ensure_installed, configs.additional_servers or {})
   require("mason-lspconfig").setup({
-    ensure_installed = ensure_installed
+    ensure_installed = ensure_installed,
+    automatic_enable = false
   })
 
   -- Configure servers

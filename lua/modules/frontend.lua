@@ -26,7 +26,7 @@ local M = {
     },
     additional_servers = {
       "vtsls",
-      "volar",
+      "vue_ls",
       "ts_ls",
     },
     modify_capabilities = {

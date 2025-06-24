@@ -52,11 +52,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
+
+local json = require"util.json"
 local json_path_gr = vim.api.nvim_create_augroup("json_path", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorMoved" }, {
   pattern = "*.json",
   group = json_path_gr,
-  callback = require("util.json").show_json_path
+  callback = json.show_json_path
 })
 
 vim.api.nvim_create_autocmd({ "BufAdd" }, {
