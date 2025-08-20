@@ -50,10 +50,11 @@ M.spec = {
     init = function() require("config.snacks").init() end,
     priority = 1000
   },
-  { "nvim-lualine/lualine.nvim", opts = {} },
-  { "lewis6991/gitsigns.nvim",   opts = {} },
-  { "akinsho/bufferline.nvim",   opts = {} },
-  { "stevearc/dressing.nvim",    opts = {} },
+  { "nvim-lualine/lualine.nvim",         opts = {} },
+  { "lewis6991/gitsigns.nvim",           opts = {} },
+  { "https://tpope.io/vim/fugitive.git", lazy = false },
+  { "akinsho/bufferline.nvim",           opts = {} },
+  { "stevearc/dressing.nvim",            opts = {} },
 
   -- Formatting
   { "stevearc/conform.nvim" },
@@ -160,7 +161,6 @@ function M.init()
   require("config.completions").init()
   require("config.snippets").init_snippets()
   require("config.multicursor").init()
-
 end
 
 return M

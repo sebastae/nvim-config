@@ -18,7 +18,7 @@ function M.init_ui()
   end
 
   dap.listeners.before.event_terminated.dapui_config = function()
-    dui.close()
+    --dui.close()
   end
 
   dap.listeners.before.event_exited.dapui_config = function()
@@ -177,7 +177,6 @@ function M.init_go()
       cwd = function()
         return coroutine.create(function(dap_run_co)
           vim.ui.select(vim.tbl_keys(debug_packages), { prompt = "Pick package" }, function(item)
-            print("Selected [" .. item .. "]: " .. debug_packages[item])
             coroutine.resume(dap_run_co, debug_packages[item] or dap.ABORT)
           end)
         end)

@@ -51,30 +51,31 @@ local function setup()
         }),
         desc = "Find config files"
       },
-      { "<leader>fp", tb.builtin,                                              desc = "Telescope builtins" },
-      { "<leader>fo", function() require "config.telescope".find_object() end, desc = "Find objects" },
+      { "<leader>fp", tb.builtin,                                               desc = "Telescope builtins" },
+      { "<leader>fo", function() require "config.telescope".find_object() end,  desc = "Find objects" },
 
       -- Pickers
-      { "<leader>pc", cmd(":CccPick"),                                         desc = "Pick color" },
+      { "<leader>pc", cmd(":CccPick"),                                          desc = "Pick color" },
+      { "<leader>pt", function() tb.colorscheme({ enable_preview = true }) end, desc = "Pick colorscheme" },
 
       -- Files
-      { "<leader>fn", cmd("enew"),                                             desc = "New File" },
+      { "<leader>fn", cmd("enew"),                                              desc = "New File" },
 
       -- Groups
       { "<leader>c",  group = "Code actions" },
       { "<leader>b",  group = "Buffer" },
 
       -- Buffers
-      { "<S-h>",      cmd("bprevious"),                                        desc = "Prev Buffer" },
-      { "<S-l>",      cmd("bnext"),                                            desc = "Next Buffer" },
-      { "[b",         cmd("bprevious"),                                        desc = "Prev Buffer" },
-      { "]b",         cmd("bnext"),                                            desc = "Next Buffer" },
-      { "<leader>bb", cmd("e #"),                                              desc = "Switch to Other Buffer" },
-      { "<leader>`",  cmd("e #"),                                              desc = "Switch to Other Buffer" },
-      { "<leader>bd", bufutil.bufremove,                                       desc = "Delete Buffer" },
-      { "<leader>bD", cmd(":bd"),                                              desc = "Delete Buffer and Window" },
-      { "<leader>bn", cmd("bn"),                                               desc = "Next buffer",             silent = true },
-      { "<leader>bp", cmd("bp"),                                               desc = "Prev buffer",             silent = true },
+      { "<S-h>",      cmd("bprevious"),                                         desc = "Prev Buffer" },
+      { "<S-l>",      cmd("bnext"),                                             desc = "Next Buffer" },
+      { "[b",         cmd("bprevious"),                                         desc = "Prev Buffer" },
+      { "]b",         cmd("bnext"),                                             desc = "Next Buffer" },
+      { "<leader>bb", cmd("e #"),                                               desc = "Switch to Other Buffer" },
+      { "<leader>`",  cmd("e #"),                                               desc = "Switch to Other Buffer" },
+      { "<leader>bd", bufutil.bufremove,                                        desc = "Delete Buffer" },
+      { "<leader>bD", cmd(":bd"),                                               desc = "Delete Buffer and Window" },
+      { "<leader>bn", cmd("bn"),                                                desc = "Next buffer",             silent = true },
+      { "<leader>bp", cmd("bp"),                                                desc = "Prev buffer",             silent = true },
       {
         "<leader>ba",
         function()
@@ -89,9 +90,9 @@ local function setup()
         desc = "Close all other buffers",
         silent = true
       },
-      { "<leader>bA",      cmd("%bd"),                                    desc = "Close all buffers",  silent = true },
-      { "<Tab>",           cmd("bn"),                                     desc = "Next buffer",        silent = true },
-      { "<S-Tab>",         cmd("bp"),                                     desc = "Prev buffer",        silent = true },
+      { "<leader>bA",      cmd("%bd"),                                    desc = "Close all buffers",            silent = true },
+      { "<Tab>",           cmd("bn"),                                     desc = "Next buffer",                  silent = true },
+      { "<S-Tab>",         cmd("bp"),                                     desc = "Prev buffer",                  silent = true },
 
       -- Better movement
       { "<C-h>",           "<C-w>h",                                      silent = true, },
@@ -137,6 +138,10 @@ local function setup()
 
       -- LSP
       { "<F3>",            cmd("LspRestart"),                             desc = "Restart LSP" },
+      { "<leader>i",       group = "inspect" },
+      { "<C-e>",           cmd("Inspect"),                                desc = "Show items at cursor (buffer)" },
+      { "<leader>ie",      cmd("Inspect"),                                desc = "Show items at cursor (buffer)" },
+      { "<leader>it",      cmd("InspectTree"),                            desc = "Inspect language tree" }
 
     },
     {

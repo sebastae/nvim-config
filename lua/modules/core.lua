@@ -7,6 +7,10 @@ local M = {
     require("config.autocommands")
     require("config.options")
     require("config.commands")
+
+    vim.cmd("TSEnable highlight")
+    vim.cmd("TSEnable incremental_selection")
+    vim.cmd("TSEnable indent")
   end,
   lspconfig = {
     servers = {
