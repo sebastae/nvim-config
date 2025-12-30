@@ -1,12 +1,11 @@
 local M = {}
 
 function M.start()
-  local mason_registry = require("mason-registry")
-  local jdtls_loc = mason_registry.get_package("jdtls"):get_install_path()
+  local jdtls_loc = require"util.lsp".get_pkg_path("jdtls", "bin/jdtls")
 
 
   require("jdtls").start_or_attach({
-    cmd = { jdtls_loc .. "/bin/jdtls" },
+    cmd = { jdtls_loc },
     root_dir = vim.fs.dirname(vim.fs.find({ 'pom.xml', '.git' }, { upward = true })[1]),
     settings = {
       java = {

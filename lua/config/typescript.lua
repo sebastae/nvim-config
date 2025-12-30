@@ -3,9 +3,41 @@ require("lspconfig.configs").vtsls = require("vtsls").lspconfig
 local fts = require("lspconfig.configs.vtsls").default_config.filetypes
 table.insert(fts, "vue")
 
-local lsp = require("util.lsp")
+local lsputil = require("util.lsp")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+local vue_server_path = lsputil.get_pkg_path("vue-language-server", "node_modules/@vue/language-server")
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  location = vue_server_path,
+  languages = { 'vue' },
+  configNamespace = 'typescript'
+}
+
+local vtsls_config = {
+  settings = {
+    vtsls = {
+      tsserver = {
+        globalPlugins = { vue_plugin }
+      }
+    }
+  },
+  filetypes = fts
+}
+
+local ts_ls_config = {
+  init_options = {
+    plugins = { vue_plugin }
+  },
+  filetypes = fts
+}
+
+vim.lsp.config('vtsls', vtsls_config)
+vim.lsp.config('vue_ls', {})
+vim.lsp.config('ts_ls', ts_ls_config)
+vim.lsp.enable({ 'vtsls', 'vue_ls' })
+
+--[[
 require("lspconfig").vtsls.setup({
   filetypes = fts,
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities),
@@ -25,7 +57,7 @@ require("lspconfig").vtsls.setup({
         globalPlugins = {
           {
             name = "@vue/typescript-plugin",
-            location = require("util.lsp").get_pkg_path("vue-language-server", "/node_modules/@vue/language-server"),
+            location = require("util.lsp").get_pkg_path("vue-language-server", "node_modules/@vue/language-server"),
             languages = { "vue" },
             configNamespace = "typescript",
             enableForWorkspaceTypeScriptVersions = true
@@ -131,7 +163,7 @@ require("lspconfig").vtsls.setup({
 
 })
 
-require("lspconfig").volar.setup({
+require("lspconfig").vue_ls.setup({
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities),
   init_options = {
     vue = {
@@ -139,3 +171,5 @@ require("lspconfig").volar.setup({
     }
   }
 })
+
+]]

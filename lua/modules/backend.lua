@@ -27,4 +27,11 @@ return {
       "sql"
     },
   },
+  init = function()
+    vim.filetype.add({
+      pattern = {
+        ['.*%.tmpl%.html'] = 'gotmpl'
+      }
+    })
+  end
 }

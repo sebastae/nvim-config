@@ -10,7 +10,7 @@ local M = {
 
     vim.cmd("TSEnable highlight")
     vim.cmd("TSEnable incremental_selection")
-    vim.cmd("TSEnable indent")
+    -- vim.cmd("TSEnable indent")
   end,
   lspconfig = {
     servers = {

@@ -119,6 +119,10 @@ M.spec = {
   { "phelipetls/jsonpath.nvim", },
   { "zbirenbaum/copilot.lua",   cmd = "Copilot", event = "InsertEnter", config = function() require("config.copilot") end },
   { "zbirenbaum/copilot-cmp",   lazy = true,     opts = {} },
+  {
+    "jmbuhr/otter.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
 
   -- Keybinds
   {

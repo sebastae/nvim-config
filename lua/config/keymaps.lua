@@ -53,6 +53,7 @@ local function setup()
       },
       { "<leader>fp", tb.builtin,                                               desc = "Telescope builtins" },
       { "<leader>fo", function() require "config.telescope".find_object() end,  desc = "Find objects" },
+      { "gs",         tb.lsp_document_symbols,                                  desc = "Go to document symbol" },
 
       -- Pickers
       { "<leader>pc", cmd(":CccPick"),                                          desc = "Pick color" },

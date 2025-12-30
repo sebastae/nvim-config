@@ -9,7 +9,15 @@ return {
       "rust"
     },
     servers = {
-      ["rust_analyzer"] = {}
+      ["rust_analyzer"] = {},
+      ["pylsp"] = {},
+      ["bashls"] = {},
     }
-  }
+  },
+  init = function()
+    local mr = require "mason-registry"
+    if not mr.is_installed("shfmt") then
+      vim.cmd("MasonInstall shfmt")
+    end
+  end
 }
