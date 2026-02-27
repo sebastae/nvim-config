@@ -51,32 +51,40 @@ local function setup()
         }),
         desc = "Find config files"
       },
-      { "<leader>fp", tb.builtin,                                               desc = "Telescope builtins" },
-      { "<leader>fo", function() require "config.telescope".find_object() end,  desc = "Find objects" },
-      { "gs",         tb.lsp_document_symbols,                                  desc = "Go to document symbol" },
+      { "<leader>fp",  tb.builtin,                                               desc = "Telescope builtins" },
+      { "<leader>fo",  function() require "config.telescope".find_object() end,  desc = "Find objects" },
+      { "gs",          tb.lsp_document_symbols,                                  desc = "Go to document symbol" },
+      { "<leader>fs",  tb.lsp_dynamic_workspace_symbols,                         desc = "Find dynamic workspace symbols" },
+
 
       -- Pickers
-      { "<leader>pc", cmd(":CccPick"),                                          desc = "Pick color" },
-      { "<leader>pt", function() tb.colorscheme({ enable_preview = true }) end, desc = "Pick colorscheme" },
+      { "<leader>pc",  cmd(":CccPick"),                                          desc = "Pick color" },
+      { "<leader>pt",  function() tb.colorscheme({ enable_preview = true }) end, desc = "Pick colorscheme" },
+      { "<leader>ps",  tb.symbols,                                               desc = "Pick symbols to insert" },
+      { "<leader>pSe", function() tb.symbols { sources = { 'emoji' } } end,      desc = "Pick emoji" },
+      { "<leader>pSk", function() tb.symbols { sources = { 'kaomoji' } } end,    desc = "Pick kaomoji" },
+      { "<leader>pSm", function() tb.symbols { sources = { 'math' } } end,       desc = "Pick math" },
+      { "<leader>pSl", function() tb.symbols { sources = { 'latex' } } end,      desc = "Pick latex" },
+      { "<leader>pSg", function() tb.symbols { sources = { 'gitmoji' } } end,    desc = "Pick gitmoji" },
 
       -- Files
-      { "<leader>fn", cmd("enew"),                                              desc = "New File" },
+      { "<leader>fn",  cmd("enew"),                                              desc = "New File" },
 
       -- Groups
-      { "<leader>c",  group = "Code actions" },
-      { "<leader>b",  group = "Buffer" },
+      { "<leader>c",   group = "Code actions" },
+      { "<leader>b",   group = "Buffer" },
 
       -- Buffers
-      { "<S-h>",      cmd("bprevious"),                                         desc = "Prev Buffer" },
-      { "<S-l>",      cmd("bnext"),                                             desc = "Next Buffer" },
-      { "[b",         cmd("bprevious"),                                         desc = "Prev Buffer" },
-      { "]b",         cmd("bnext"),                                             desc = "Next Buffer" },
-      { "<leader>bb", cmd("e #"),                                               desc = "Switch to Other Buffer" },
-      { "<leader>`",  cmd("e #"),                                               desc = "Switch to Other Buffer" },
-      { "<leader>bd", bufutil.bufremove,                                        desc = "Delete Buffer" },
-      { "<leader>bD", cmd(":bd"),                                               desc = "Delete Buffer and Window" },
-      { "<leader>bn", cmd("bn"),                                                desc = "Next buffer",             silent = true },
-      { "<leader>bp", cmd("bp"),                                                desc = "Prev buffer",             silent = true },
+      { "<S-h>",       cmd("bprevious"),                                         desc = "Prev Buffer" },
+      { "<S-l>",       cmd("bnext"),                                             desc = "Next Buffer" },
+      { "[b",          cmd("bprevious"),                                         desc = "Prev Buffer" },
+      { "]b",          cmd("bnext"),                                             desc = "Next Buffer" },
+      { "<leader>bb",  cmd("e #"),                                               desc = "Switch to Other Buffer" },
+      { "<leader>`",   cmd("e #"),                                               desc = "Switch to Other Buffer" },
+      { "<leader>bd",  bufutil.bufremove,                                        desc = "Delete Buffer" },
+      { "<leader>bD",  cmd(":bd"),                                               desc = "Delete Buffer and Window" },
+      { "<leader>bn",  cmd("bn"),                                                desc = "Next buffer",                   silent = true },
+      { "<leader>bp",  cmd("bp"),                                                desc = "Prev buffer",                   silent = true },
       {
         "<leader>ba",
         function()
@@ -142,7 +150,16 @@ local function setup()
       { "<leader>i",       group = "inspect" },
       { "<C-e>",           cmd("Inspect"),                                desc = "Show items at cursor (buffer)" },
       { "<leader>ie",      cmd("Inspect"),                                desc = "Show items at cursor (buffer)" },
-      { "<leader>it",      cmd("InspectTree"),                            desc = "Inspect language tree" }
+      { "<leader>it",      cmd("InspectTree"),                            desc = "Inspect language tree" },
+
+      {
+        "Q",
+        function()
+          vim.api.nvim_input('m[vaqvd`[')
+        end,
+        desc = "Delete until end of string",
+        expr = true
+      }
 
     },
     {

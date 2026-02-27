@@ -12,8 +12,10 @@ local M = {
       ["cssls"] = {},
       ["somesass_ls"] = {},
       ["tailwindcss"] = {},
-      ["html"] = {},
-      ["emmet_ls"] = {}
+      ["html"] = {
+        filetypes = { "html", "templ", "gotmpl" }
+      },
+      ["emmet_ls"] = { filetypes = { "astro", "css", "eruby", "html", "htmlangular", "htmldjango", "javascriptreact", "less", "pug", "sass", "scss", "svelte", "templ", "typescriptreact", "vue", "gotmpl" } }
     },
     grammars = {
       "html",

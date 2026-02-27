@@ -54,7 +54,20 @@ function M.load()
 
   require("config.lsp").setup(lsp_configs)
   require("nvim-treesitter.configs").setup({
-    ensure_installed = lsp_configs.grammars
+    ensure_installed = lsp_configs.grammars,
+    textobjects = {
+      lsp_interop = {
+        enable = true,
+        border = 'none',
+        floating_preview_opts = {},
+        peek_definition_code = {
+          ["<leader>gf"] = "@function.outer",
+          ["<leader>gc"] = "@class.outer",
+          ["<leader>gv"] = "@assignment.inner",
+          ["<leader>ga"] = "@assignment.rhs"
+        }
+      }
+    }
   })
 
 

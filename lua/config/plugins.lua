@@ -10,6 +10,7 @@ M.spec = {
       require "config.telescope".init()
     end
   },
+  { "nvim-telescope/telescope-symbols.nvim" },
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -97,6 +98,8 @@ M.spec = {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
   },
+  { "nvim-treesitter/nvim-treesitter-context" },
+  { "nvim-treesitter/nvim-treesitter-textobjects" },
   {
     "neovim/nvim-lspconfig",
     dependencies = {
