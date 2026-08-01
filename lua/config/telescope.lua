@@ -4,7 +4,9 @@ function M.init()
   local t = require "telescope"
 
   t.setup({
-
+    window = {
+      position = "right"
+    }
   })
 end
 
